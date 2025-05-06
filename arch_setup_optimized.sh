@@ -130,7 +130,7 @@ install_aur_helper() {
 install_extra_software() {
     if [[ "$INSTALL_EXTRA_SOFTWARE" == true ]]; then
         log_info "Instalando software adicional..."
-        sudo pacman -S --noconfirm vlc mpv ffmpeg libreoffice-fresh evince gparted gnome-disk-utility
+        sudo pacman -S --noconfirm firefox vlc mpv ffmpeg libreoffice-fresh evince gparted gnome-disk-utility
         log_success "Software adicional instalado."
     fi
 }
