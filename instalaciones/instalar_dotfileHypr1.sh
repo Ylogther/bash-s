@@ -12,5 +12,6 @@ ml4w-hyprland-setup
 
 echo "instalación completada con éxito"
 
-else echo "no se permitió proceder con la instalación cerrando script"
+else
+ echo "no se permitió proceder con la instalación cerrando script"
 fi
