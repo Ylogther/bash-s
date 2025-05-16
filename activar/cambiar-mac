@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+echo "Bajando interfaz.."
+sudo ip link set wlan0 down
+echo "Cambiando MAC.."
+sudo macchanger -m c0:35:32:2d:06:c9 wlan0
+echo "Subiendo interfaz.."
+sudo ip link set wlan0 up
+echo "verificando mac"
+ip link show wlan0
