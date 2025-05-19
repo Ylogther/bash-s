@@ -25,7 +25,7 @@
 ## 📂 Estructura del repositorio
 
 ```bash
-ml4w/
+[bash-arch]
 ├── 00-dotfiles/
 │   └── instalar-dotfiles.sh
 ├── 01-actualizacion/
@@ -49,8 +49,8 @@ ml4w/
 ## 🚀 Instalación rápida
 
 ```bash
-git clone https://github.com/Ylogther/ml4w.git
-cd ml4w
+git clone https://github.com/Ylogther/bash-arch.git
+cd bash-arch
 chmod +x */*.sh
 ```
 
