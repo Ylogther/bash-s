@@ -1,41 +1,72 @@
 #!/bin/bash
 
-echo "=== ACTUALIZANDO EL SISTEMA ==="
-sudo pacman -Syu --noconfirm
+# Colores
+GREEN='\e[32m'
+RED='\e[31m'
+YELLOW='\e[33m'
+RESET='\e[0m'
 
-echo "=== INSTALANDO DRIVERS INTEL Y NVIDIA ==="
-sudo pacman -Sy --noconfirm mesa libva-intel-driver libva-utils vulkan-intel
-sudo pacman -Sy --noconfirm nvidia nvidia-utils nvidia-settings nvidia-prime
-sudo pacman -Sy --noconfirm vulkan-icd-loader vulkan-tools
-sudo systemctl enable nvidia-persistenced.service
-sudo systemctl start nvidia-persistenced.service
+# Función para mostrar título
+titulo() {
+    echo -e "\n${YELLOW}=== $1 ===${RESET}"
+}
 
-echo "=== INSTALANDO WINE, PROTONTRICKS Y WINETRICKS ==="
-sudo pacman -Sy --noconfirm wine winetricks 
+# Verificar si se está ejecutando como root
+if [[ $EUID -ne 0 ]]; then
+    echo -e "${RED}Este script debe ejecutarse como root. Usa 'sudo ./nombre.sh'${RESET}"
+    exit 1
+fi
 
-echo "=== INSTALANDO STEAM ==="
-sudo pacman -Sy --noconfirm steam steam-native-runtime
+# Actualizar sistema
+titulo "ACTUALIZANDO EL SISTEMA"
+pacman -Syu --noconfirm || { echo -e "${RED}Error actualizando el sistema.${RESET}"; exit 1; }
 
-echo "=== INSTALANDO LUTRIS ==="
-sudo pacman -Sy --noconfirm lutris
+# Instalar drivers Intel y NVIDIA
+titulo "INSTALANDO DRIVERS INTEL Y NVIDIA"
+pacman -S --noconfirm \
+    mesa libva-intel-driver libva-utils vulkan-intel \
+    nvidia nvidia-utils nvidia-settings nvidia-prime \
+    vulkan-icd-loader vulkan-tools
 
-echo "=== INSTALANDO FLATPAK Y HEROIC GAMES LAUNCHER ==="
-sudo pacman -Sy --noconfirm flatpak
-flatpak install flathub com.heroicgameslauncher.hgl -y
+systemctl enable nvidia-persistenced.service
+systemctl start nvidia-persistenced.service
 
-echo "=== INSTALANDO PROTONUP-QT (gestor de Proton GE) ==="
-flatpak install flathub net.davidotek.pupgui2 -y
+# Wine y herramientas
+titulo "INSTALANDO WINE Y WINETRICKS"
+pacman -S --noconfirm wine winetricks
 
-echo "=== INSTALANDO MANGOHUD Y GOVERLAY ==="
-sudo pacman -Sy --noconfirm mangohud goverlay
+# Steam
+titulo "INSTALANDO STEAM"
+pacman -S --noconfirm steam steam-native-runtime
 
-echo "=== INSTALANDO GAMEMODE ==="
-sudo pacman -Sy --noconfirm gamemode
+# Lutris
+titulo "INSTALANDO LUTRIS"
+pacman -S --noconfirm lutris
 
-echo "=== INSTALANDO PIPEWIRE PARA AUDIO ==="
-sudo pacman -Sy --noconfirm pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber
+# Flatpak + Heroic
+titulo "INSTALANDO FLATPAK Y HEROIC GAMES LAUNCHER"
+pacman -S --noconfirm flatpak
+flatpak install -y flathub com.heroicgameslauncher.hgl
 
-echo "=== INSTALANDO SOPORTE PARA GAMEPADS ==="
-sudo pacman -Sy --noconfirm game-devices-udev
+# ProtonUp-QT
+titulo "INSTALANDO PROTONUP-QT"
+flatpak install -y flathub net.davidotek.pupgui2
 
-echo "=== TODO COMPLETO. REINICIA TU SISTEMA PARA APLICAR LOS CAMBIOS. ==="
+# MangoHUD y GOverlay
+titulo "INSTALANDO MANGOHUD Y GOVERLAY"
+pacman -S --noconfirm mangohud goverlay
+
+# GameMode
+titulo "INSTALANDO GAMEMODE"
+pacman -S --noconfirm gamemode
+
+# Audio con PipeWire
+titulo "INSTALANDO PIPEWIRE"
+pacman -S --noconfirm pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber
+
+# Soporte gamepads
+titulo "INSTALANDO SOPORTE PARA GAMEPADS"
+pacman -S --noconfirm game-devices-udev
+
+# Final
+titulo "TODO COMPLETO. REINICIA TU SISTEMA PARA APLICAR LOS CAMBIOS."
