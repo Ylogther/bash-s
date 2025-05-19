@@ -1,11 +1,11 @@
 
-# 🎛️ script necesarios para Arch linux
+# 🎛️ Bash-Arch: Colección de Scripts para Arch Linux + Hyprland
 
 **Versión**: 4.0 | **Licencia**: GPLv3  
 ![Estado](https://img.shields.io/badge/estado-estable-brightgreen)
 ![Licencia](https://img.shields.io/github/license/Ylogther/bash-s?color=blue)
 
-🔧 Herramienta profesional para automatizar la configuración de un entorno de trabajo Linux moderno, seguro y completo, con soporte para virtualización, multimedia y ciberseguridad.
+🔧 Herramienta profesional para automatizar instalaciones, configuraciones y mantenimiento en Arch Linux con enfoque en Hyprland, gaming, multimedia, seguridad y desarrollo
 
 > ✨ Ideal para desarrolladores, creadores de contenido, y entusiastas del entorno Linux personalizado con Hyprland.
 
@@ -25,23 +25,34 @@
 ## 📂 Estructura del repositorio
 
 ```bash
-[bash-arch]
-├── 00-dotfiles/
-│   └── instalar-dotfiles.sh
-├── 01-actualizacion/
-│   └── actualizacion-global.sh
-├── 02-herramientas-multimedia/
-│   ├── multimedia-base.sh
-│   └── obs-streaming.sh
-├── 03-vms/
+bash-arch/
+├── actualizacion/                 # Scripts para actualizar el sistema
+│   └── full_update.sh             # Actualización completa del sistema
+├── desarrollo/                   # Herramientas y setups para desarrollo
+│   ├── install_devtools.sh       # Instalación de herramientas de desarrollo
+│   ├── ml4w_install.sh           # Instalación de ML4W (machine learning para Windows)
+│   └── setup_dev_env.sh          # Configuración de entorno de desarrollo
+├── gaming/                      # Scripts para optimizar y preparar el entorno gaming
+│   ├── drivers_install.sh        # Instalación de drivers NVIDIA, Intel, AMD, etc.
+│   └── instalacion-gaming.sh     # Configuraciones gaming adicionales
+├── multimedia/                  # Instalación de programas multimedia y streaming
+│   ├── davinci_resolve_deps.sh  # Dependencias para DaVinci Resolve
+│   ├── multimedia_install.sh     # Instalación general de multimedia
+│   └── streaming_install.sh      # Instalación y configuración de OBS y plugins
+├── seguridad/                   # Scripts orientados a seguridad y red
+│   ├── cambio_mac.sh             # Cambio de MAC address con opción propia o predeterminada
+│   ├── firewall_fail2ban.sh      # Configuración básica de firewall y fail2ban
+│   └── update_full.sh            # Script de actualización con enfoque en seguridad
+├── solucion_problema_wifi/      # Scripts y documentación para problemas wifi
+│   └── README.md
+├── virtualizacion/              # Scripts para configurar y optimizar virtualización
 │   ├── protocolo-salmon.sh
-│   └── protocolo-salmon-con-vm.sh
-├── 04-redes/
-│   └── cambiar-mac.sh
-├── 05-utils/
-│   └── crear-estructura.sh
-├── README.md
-└── LICENSE
+│   └── protocolo-salmon-vm.sh
+├── utilidades/                  # Herramientas y scripts auxiliares generales
+│   └── install_yay.sh            # Instalador automático y limpio de yay
+├── LICENSE                     # Licencia GPLv3
+└── README.md                   # Este archivo
+
 ````
 
 ---

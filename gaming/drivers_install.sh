@@ -4,39 +4,75 @@
 GREEN='\e[32m'
 RED='\e[31m'
 YELLOW='\e[33m'
+CYAN='\e[36m'
 RESET='\e[0m'
 
-# Función para mostrar encabezado bonito
 titulo() {
-    echo -e "\n${YELLOW}===> $1${RESET}"
+    echo -e "\n${YELLOW}==> $1${RESET}"
 }
 
-# Verificar privilegios root
-if [[ $EUID -ne 0 ]]; then
-    echo -e "${RED}Este script debe ejecutarse como root. Usa 'sudo ./nombre.sh'${RESET}"
+error() {
+    echo -e "${RED}✖ $1${RESET}"
     exit 1
+}
+
+ok() {
+    echo -e "${GREEN}✔ $1${RESET}"
+}
+
+# Verificar root
+if [[ $EUID -ne 0 ]]; then
+    error "Este script debe ejecutarse como root. Usa 'sudo ./drivers_install.sh'"
 fi
 
-# Actualización del sistema
+# Verificar gestor de paquetes
+if ! command -v pacman &> /dev/null; then
+    error "Este script está diseñado solo para Arch Linux o derivados."
+fi
+
 titulo "Actualizando el sistema"
-pacman -Syu --noconfirm || { echo -e "${RED}Error al actualizar.${RESET}"; exit 1; }
+pacman -Syu --noconfirm || error "Fallo al actualizar el sistema."
 
-# Instalación de drivers Intel y soporte Vulkan
-titulo "Instalando drivers Intel + Vulkan"
-pacman -S --noconfirm mesa libva-intel-driver libva-utils vulkan-intel vulkan-icd-loader vulkan-tools || {
-    echo -e "${RED}Error instalando drivers Intel.${RESET}"; exit 1;
-}
+# Detectar GPUs
+titulo "Detectando hardware gráfico..."
+GPU_INFO=$(lspci | grep -Ei 'vga|3d|display')
 
-# Instalación de drivers NVIDIA + soporte híbrido
-titulo "Instalando drivers NVIDIA propietarios"
-pacman -S --noconfirm nvidia nvidia-utils nvidia-settings nvidia-prime || {
-    echo -e "${RED}Error instalando drivers NVIDIA.${RESET}"; exit 1;
-}
+echo -e "${CYAN}$GPU_INFO${RESET}"
 
-# Habilitar servicio de persistencia NVIDIA
-titulo "Habilitando servicio nvidia-persistenced"
-systemctl enable nvidia-persistenced.service
-systemctl start nvidia-persistenced.service
+# Flags para saber qué instalar
+USE_INTEL=false
+USE_NVIDIA=false
+USE_AMD=false
 
-titulo "Instalación completada con éxito"
-echo -e "${GREEN}Reinicia tu sistema para aplicar todos los cambios.${RESET}"
+if echo "$GPU_INFO" | grep -qi "Intel"; then
+    USE_INTEL=true
+fi
+if echo "$GPU_INFO" | grep -qi "NVIDIA"; then
+    USE_NVIDIA=true
+fi
+if echo "$GPU_INFO" | grep -Eqi "AMD|Radeon"; then
+    USE_AMD=true
+fi
+
+# Instalación por tipo de GPU
+if $USE_INTEL; then
+    titulo "Instalando drivers Intel"
+    pacman -S --noconfirm mesa libva-intel-driver libva-utils vulkan-intel vulkan-icd-loader vulkan-tools || error "Falló la instalación de Intel"
+    ok "Drivers Intel instalados"
+fi
+
+if $USE_NVIDIA; then
+    titulo "Instalando drivers NVIDIA propietarios"
+    pacman -S --noconfirm nvidia nvidia-utils nvidia-settings nvidia-prime || error "Falló la instalación de NVIDIA"
+    systemctl enable --now nvidia-persistenced.service
+    ok "Drivers NVIDIA instalados y servicio activado"
+fi
+
+if $USE_AMD; then
+    titulo "Instalando drivers AMD (Radeon)"
+    pacman -S --noconfirm mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver || error "Falló la instalación de AMD"
+    ok "Drivers AMD instalados"
+fi
+
+titulo "✅ Instalación de drivers completada"
+echo -e "${GREEN}Reinicia tu sistema para aplicar los cambios.${RESET}"
