@@ -3,7 +3,7 @@
 
 **Versión**: 4.0 | **Licencia**: GPLv3  
 ![Estado](https://img.shields.io/badge/estado-estable-brightgreen)
-![Licencia](https://img.shields.io/github/license/Ylogther/bash-s-?color=blue)
+![Licencia](https://img.shields.io/github/license/Ylogther/bash-s?color=blue)
 
 🔧 Herramienta profesional para automatizar la configuración de un entorno de trabajo Linux moderno, seguro y completo, con soporte para virtualización, multimedia y ciberseguridad.
 
