@@ -1,13 +1,13 @@
-Aquí tienes un `README.md` profesional y bien estructurado para tu proyecto, con licencia **GPL v3**, una presentación clara y técnica, ideal para un repositorio de GitHub:
 
----
-
-````markdown
 # 🎛️ ML4W - My Linux 4 Work
 
-**ML4W (My Linux for Work)** es una colección de scripts y configuraciones pensadas para automatizar la instalación, personalización y mantenimiento de un entorno de trabajo profesional sobre distribuciones GNU/Linux, con especial enfoque en **Arch Linux + Hyprland**.
+**Versión**: 4.2 | **Licencia**: GPLv3  
+![Estado](https://img.shields.io/badge/estado-estable-brightgreen)
+![Licencia](https://img.shields.io/github/license/Ylogther/Ejecuta-archivos--.exe--con-seguridad-en-Linux-MEJORADO-?color=blue)
 
-> ✨ Ideal para desarrolladores, creadores de contenido multimedia, entusiastas de la virtualización, y usuarios avanzados que quieren un entorno potente, automatizado y estéticamente atractivo.
+🔧 Herramienta profesional para automatizar la configuración de un entorno de trabajo Linux moderno, seguro y completo, con soporte para virtualización, multimedia y ciberseguridad.
+
+> ✨ Ideal para desarrolladores, creadores de contenido, y entusiastas del entorno Linux personalizado con Hyprland.
 
 ---
 
