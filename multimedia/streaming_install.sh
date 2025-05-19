@@ -4,26 +4,29 @@ set -e
 
 echo "🎥 Instalando OBS Studio y plugins esenciales para streaming..."
 
+# Verificar si estamos en Arch
 if command -v pacman &> /dev/null; then
-    sudo pacman -S --noconfirm obs-studio obs-v4l2sink
+    sudo pacman -S --noconfirm obs-studio
+
+    if command -v yay &> /dev/null; then
+        echo "📦 Instalando obs-v4l2sink desde AUR..."
+        yay -S --noconfirm obs-v4l2sink
+    else
+        echo "⚠️ 'yay' no está instalado. Instala yay o paru para obtener obs-v4l2sink desde AUR."
+    fi
+
+# Para distribuciones basadas en Debian
 elif command -v apt &> /dev/null; then
     sudo apt update
     sudo apt install -y obs-studio v4l2loopback-dkms v4l2loopback-utils
+    echo "🔧 Para v4l2sink, compílalo desde: https://github.com/CatxFish/obs-v4l2sink"
 else
-    echo "⚠️ Gestor de paquetes no soportado para este script."
+    echo "⚠️ Gestor de paquetes no compatible."
     exit 1
 fi
 
-echo "✔ OBS Studio instalado."
+# Cargar módulo v4l2loopback
+echo "🎥 Cargando módulo v4l2loopback..."
+sudo modprobe v4l2loopback devices=1 video_nr=10 card_label="OBS Virtual Camera" exclusive_caps=1
 
-echo "🔌 Instalando herramientas adicionales (opcional):"
-echo "- StreamFX (efectos y mejoras para OBS)"
-
-# Instalar StreamFX vía plugin (ejemplo para Arch con yay)
-if command -v yay &> /dev/null; then
-    yay -S --noconfirm obs-studio-streamfx
-elif command -v apt &> /dev/null; then
-    echo "Para StreamFX en Debian/Ubuntu, descarga el plugin desde https://github.com/Xaymar/obs-StreamFX/releases y sigue las instrucciones."
-fi
-
-echo "✅ Entorno de streaming configurado. ¡A transmitir!"
+echo "✅ OBS Studio y cámara virtual listos para usar."
