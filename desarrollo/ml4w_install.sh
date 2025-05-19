@@ -57,3 +57,4 @@ elif [[ "$respuesta" =~ ^[nN]$ ]]; then
 else
     error "Respuesta inválida. Usa 's' para sí o 'n' para no."
 fi
+

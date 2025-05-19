@@ -55,3 +55,4 @@ echo "🔍 Verificando MAC actual:"
 ip link show "$INTERFACE" | grep ether
 
 echo -e "${GREEN}✔ Cambio de MAC completado.${NC}"
+

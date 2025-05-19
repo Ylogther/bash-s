@@ -51,3 +51,4 @@ echo -e "${BLUE}📋 Resultado de clinfo:${RESET}"
 clinfo | grep -E "Device|Platform Name|Vendor"
 
 titulo "✅ Configuración completa. Ahora puedes ejecutar el instalador .run de DaVinci Resolve"
+
