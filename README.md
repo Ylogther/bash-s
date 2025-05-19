@@ -7,6 +7,8 @@
 
 🔧 Herramienta profesional para automatizar instalaciones, configuraciones y mantenimiento en Arch Linux con enfoque en Hyprland, gaming, multimedia, seguridad y desarrollo
 
+ESTA HERRAMIENTA ES COMPATIBLE CON DRIVERS INTEL, AMD, NVIDIA, ETC.
+
 > ✨ Ideal para desarrolladores, creadores de contenido, y entusiastas del entorno Linux personalizado con Hyprland.
 
 ---
