@@ -9,12 +9,10 @@ NC='\033[0m' # No Color
 
 echo -e "${BLUE}🔄 Iniciando actualización completa del sistema...${NC}"
 
-# Función para verificar si un comando existe
 command_exists() {
     command -v "$1" &> /dev/null
 }
 
-# 1. Actualizar paquetes del gestor nativo (pacman, apt, dnf, etc.)
 echo -e "\n${YELLOW}1. 🔄 Buscando gestor de paquetes principal...${NC}"
 
 if command_exists pacman; then
@@ -33,7 +31,6 @@ else
     echo -e "${RED}⚠ No se detectó un gestor de paquetes principal conocido.${NC}"
 fi
 
-# 2. Actualizar paquetes de AUR (yay, paru, etc.)
 echo -e "\n${YELLOW}2. 🔄 Buscando ayudantes de AUR...${NC}"
 
 if command_exists paru; then
@@ -46,7 +43,6 @@ else
     echo -e "${RED}⚠ No se detectó ningún ayudante de AUR (yay/paru).${NC}"
 fi
 
-# 3. Actualizar paquetes de flatpak
 if command_exists flatpak; then
     echo -e "\n${YELLOW}3. 🔄 Actualizando paquetes de Flatpak...${NC}"
     flatpak update -y
@@ -54,7 +50,6 @@ else
     echo -e "${RED}⚠ 'flatpak' no está instalado. Omitiendo.${NC}"
 fi
 
-# 4. Actualizar paquetes de snap
 if command_exists snap; then
     echo -e "\n${YELLOW}4. 🔄 Actualizando paquetes de Snap...${NC}"
     sudo snap refresh
@@ -62,35 +57,33 @@ else
     echo -e "${RED}⚠ 'snap' no está instalado. Omitiendo.${NC}"
 fi
 
-# 5. Actualizar paquetes globales de pip (Python)
-if command_exists pip; then
-    echo -e "\n${YELLOW}5. 🔄 Actualizando paquetes globales de pip (Python)...${NC}"
-    pip list --outdated | cut -d ' ' -f 1 | xargs -n1 pip install -U --user
-elif command_exists pip3; then
-    echo -e "\n${YELLOW}5. 🔄 Actualizando paquetes globales de pip3 (Python)...${NC}"
-    pip3 list --outdated | cut -d ' ' -f 1 | xargs -n1 pip3 install -U --user
+if command_exists pip || command_exists pip3; then
+    PIP_CMD=$(command -v pip || command -v pip3)
+    echo -e "\n${YELLOW}5. 🔄 Actualizando paquetes globales de pip...${NC}"
+    $PIP_CMD list --outdated --format=freeze | cut -d '=' -f 1 | xargs -r -n1 $PIP_CMD install -U --user
 else
     echo -e "${RED}⚠ 'pip' no está instalado. Omitiendo.${NC}"
 fi
 
-# 6. Actualizar paquetes globales de npm (Node.js)
 if command_exists npm; then
-    echo -e "\n${YELLOW}6. 🔄 Actualizando paquetes globales de npm (Node.js)...${NC}"
+    echo -e "\n${YELLOW}6. 🔄 Actualizando paquetes globales de npm...${NC}"
     npm update -g
 else
     echo -e "${RED}⚠ 'npm' no está instalado. Omitiendo.${NC}"
 fi
 
-# Limpieza post-actualización
 echo -e "\n${BLUE}🧹 Realizando limpieza post-actualización...${NC}"
 
-# a) Eliminar dependencias huérfanas (solo para pacman)
 if command_exists pacman; then
     echo -e "\n${YELLOW}a) 🗑️ Eliminando dependencias huérfanas (pacman)...${NC}"
-    sudo pacman -Rns $(pacman -Qdtq) 2>/dev/null || echo -e "${RED}⚠ No hay dependencias huérfanas.${NC}"
+    ORPHANS=$(pacman -Qdtq 2>/dev/null || true)
+    if [[ -n "$ORPHANS" ]]; then
+        sudo pacman -Rns $ORPHANS
+    else
+        echo -e "${RED}⚠ No hay dependencias huérfanas.${NC}"
+    fi
 fi
 
-# b) Limpiar caché de yay/paru
 if command_exists paru; then
     echo -e "\n${YELLOW}b) 🗑️ Limpiando caché de paru...${NC}"
     paru -Sc --noconfirm
@@ -99,11 +92,9 @@ elif command_exists yay; then
     yay -Sc --noconfirm
 fi
 
-# c) Limpiar flatpaks no usados
 if command_exists flatpak; then
     echo -e "\n${YELLOW}c) 🗑️ Eliminando flatpaks no usados...${NC}"
     flatpak uninstall --unused -y
 fi
 
-# Verificación final
 echo -e "\n${GREEN}✅ ¡Actualización y limpieza completadas con éxito!${NC}"
