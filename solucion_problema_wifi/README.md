@@ -123,7 +123,10 @@ Ideal:
 Este archivo explica cómo desactivar funciones agresivas de ahorro de energía en tarjetas Wi-Fi para evitar problemas como:
 - Desconexiones aleatorias
 - Altos pings o lag en juegos online
-- Microcortes o latencia inestable
+- Microcortes o latencia inestabilidad 
+
+
+ANTES DE ESTO DESACTIVA POWER SAVE LA EXPLICACIÓN ESTA EN EL COMIENZO DEL README
 
 ---
 
@@ -235,9 +238,4 @@ cat /sys/module/NOMBRE_DEL_MODULO/parameters/NOMBRE_DEL_PARAMETRO
 
 **Con estos pasos podrás estabilizar la conexión Wi-Fi de tu laptop o PC en la mayoría de los casos.**
 
-```
-
----
-
-¿Quieres que lo añada directamente al README anterior con secciones separadas o como apéndice al final?
 ```
