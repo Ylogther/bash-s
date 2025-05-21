@@ -5,7 +5,7 @@ set -e
 echo "💻 Instalando herramientas de desarrollo para C, C++ y Java..."
 
 if command -v pacman &> /dev/null; then
-    sudo pacman -S --noconfirm base-devel gcc clang cmake java-environment-openjdk openjdk
+    sudo pacman -S --noconfirm base-devel gcc clang cmake java-environment-openjdk #openjdk
 elif command -v apt &> /dev/null; then
     sudo apt update
     sudo apt install -y build-essential gcc clang cmake openjdk-17-jdk

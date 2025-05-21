@@ -1,7 +1,7 @@
 
 # 🎛️ Bash-Arch: Colección de Scripts para Arch Linux + Hyprland
 
-**Versión**: 4.0 | **Licencia**: GPLv3  
+**Versión**: 4.1 | **Licencia**: GPLv3  
 ![Estado](https://img.shields.io/badge/estado-estable-brightgreen)
 ![Licencia](https://img.shields.io/github/license/Ylogther/bash-s?color=blue)
 
